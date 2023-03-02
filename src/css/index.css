@@ -1,0 +1,20 @@
+.wrap,
+.wrap1,
+.wrap2,
+.wrap3 {
+    width: 30px;
+    height: 30px;
+    background: skyblue;
+}
+.wrap1 {
+    background-image: url(../assets/img/29a1e4f5953a432789a1cdafab4bd852.png);
+    background-size: cover;
+}
+.wrap2 {
+    background-image: url(../assets/img/3f628f79ef1c495ebf8234883bf775bb.jpg);
+    background-size: cover;
+}
+.wrap3 {
+    background-image: url(../assets/img/9dc70c5eafce44128ad37af3a4cf0e63.png);
+    background-size: cover;
+}
