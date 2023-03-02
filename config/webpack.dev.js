@@ -1,6 +1,7 @@
 const path = require("path");
 const eslintPlugin = require("eslint-webpack-plugin");
 const htmlPlugin = require("html-webpack-plugin");
+const miniCssExtract = require("mini-css-extract-plugin");
 
 module.exports = {
     entry: "./src/main.js",//相对路径
@@ -15,12 +16,12 @@ module.exports = {
         rules: [
             {
                 test: /\.css$/,
-                use: ["style-loader","css-loader"]
+                use: [miniCssExtract.loader,"css-loader"]
             },
             {
                 test: /\.less$/,
                 use: [
-                    "style-loader",
+                    miniCssExtract.loader,
                     "css-loader",
                     "less-loader"
                 ]
@@ -59,6 +60,9 @@ module.exports = {
             // 1.以public/index.html作为模版，在dist包中新建html
             // 2.新建的html，内容结构与以public中一致&&自动引用打包内容
             template: path.resolve(__dirname,"../public/index.html")
+        }),
+        new miniCssExtract({
+            filename: "static/css/main.css"
         })
     ],
     devServer: {

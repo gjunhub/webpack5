@@ -129,5 +129,7 @@
 ```
 # 单独打包css文件，减少弱网下样式丢失白屏
 ```
-
+    yarn add mini-css-extract-plugin -D
+    1.cssloader => style.loader 最终是将css 抽到style标签植入html，弱网下会造成样式丢失白屏
+    2.利用mini-css-extract-plugin 将 css抽到link标签中
 ```
