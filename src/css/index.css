@@ -15,6 +15,7 @@
     background-size: cover;
 }
 .wrap3 {
+    display: flex;
     background-image: url(../assets/img/9dc70c5eafce44128ad37af3a4cf0e63.png);
     background-size: cover;
 }

@@ -16,13 +16,32 @@ module.exports = {
         rules: [
             {
                 test: /\.css$/,
-                use: [miniCssExtract.loader,"css-loader"]
+                use: [
+                    miniCssExtract.loader,
+                    "css-loader",
+                    {
+                        loader: "postcss-loader",
+                        options: {
+                            postcssOptions: {
+                                plugins: ["postcss-preset-env"],//解决大多数
+                            }
+                        } 
+                     },
+                ]
             },
             {
                 test: /\.less$/,
                 use: [
                     miniCssExtract.loader,
                     "css-loader",
+                    {
+                       loader: "postcss-loader",
+                       options: {
+                           postcssOptions: {
+                               plugins: ["postcss-preset-env"],//解决大多数
+                           }
+                       } 
+                    },
                     "less-loader"
                 ]
             },

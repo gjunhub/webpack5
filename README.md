@@ -133,3 +133,9 @@
     1.cssloader => style.loader 最终是将css 抽到style标签植入html，弱网下会造成样式丢失白屏
     2.利用mini-css-extract-plugin 将 css抽到link标签中
 ```
+# 处理css兼容性
+```
+    yarn add postcss-loader postcss postcss-preset-env -D
+    1.config.env.js中module-rules 将 postcss-loader 置于 css-loader 之后 less/sass之前
+    2.package.json中添加browsersList 浏览器兼容配置
+```
