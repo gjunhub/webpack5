@@ -2,6 +2,7 @@ const path = require("path");
 const eslintPlugin = require("eslint-webpack-plugin");
 const htmlPlugin = require("html-webpack-plugin");
 const miniCssExtract = require("mini-css-extract-plugin");
+const cssMinimizer = require("css-minimizer-webpack-plugin")
 
 module.exports = {
     entry: "./src/main.js",//相对路径
@@ -82,7 +83,8 @@ module.exports = {
         }),
         new miniCssExtract({
             filename: "static/css/main.css"
-        })
+        }),
+        new cssMinimizer()
     ],
     mode: "production"
 }

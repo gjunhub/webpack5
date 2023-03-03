@@ -82,7 +82,7 @@ module.exports = {
         }),
         new miniCssExtract({
             filename: "static/css/main.css"
-        })
+        }),
     ],
     devServer: {
         host: "localhost",//启动服务器域名

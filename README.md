@@ -139,3 +139,8 @@
     1.config.env.js中module-rules 将 postcss-loader 置于 css-loader 之后 less/sass之前
     2.package.json中添加browsersList 浏览器兼容配置
 ```
+# 处理css压缩
+```
+    yarn add css-minimizer-webpack-plugin --save--dev
+    webpack.prod.js => plugins 中调用
+```
