@@ -144,3 +144,81 @@
     yarn add css-minimizer-webpack-plugin --save--dev
     webpack.prod.js => plugins 中调用
 ```
+# sourceMap报错定位
+```
+    1.webpack.dev.js
+        devtool: "cheap-module-source-map"//开发环境下一行代码量不多，所以这边考虑行映射
+    2.webpack.prod.js
+        devtool: "source-map"//生产环境下需考虑行、列映射
+```
+# 模块热替换 HotModuleReplacement
+```
+    webpack.dev.js
+    devServer: {
+        hot: true //默认值即 true
+    }
+    //css文件 开启hot之后 style.loader 会默认应用
+    //js文件 默认不支持HMR 例vue种使用 vue-loader来支持，当前板块用module.hot.accept('路径')
+```
+# oneOf优化module loader加载-一个loader仅被命中一次
+```
+    oneOf 包裹 module中loader
+```
+# 开启babel-loader / eslint 缓存后 node_modules中出现.cache文件夹
+```
+    // babel-loader
+    {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: "babel-loader",
+        options: {
+            cacheDirectory: true,// 开启babel缓存
+            cacheCompression: false, //关闭缓存文件压缩
+        }
+    }
+    // eslint
+    new eslintPlugin({
+        context: path.resolve(__dirname,"../src"),
+        cache: true,
+        cacheLocation: path.resolve(__dirname,"../node_modules/.cache/eslintcache")
+    }),
+```
+# 利用thread 多进程打包
+```
+    1.获取cpu核数
+    const threads = require("os").cpus().length;
+    2.js文件babel
+    {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: [
+            {
+                loader: "thread-loader",
+                options: {
+                    works: threads
+                }
+            },
+            {
+                loader: "babel-loader",
+                options: {
+                    cacheDirectory: true,// 开启babel缓存
+                    cacheCompression: false, //关闭缓存文件压缩
+                }
+            }
+        ]
+    }
+    3.eslint
+    new eslintPlugin({
+        context: path.resolve(__dirname,"../src"),
+        cache: true,
+        cacheLocation: path.resolve(__dirname,"../node_modules/.cache/eslintcache"),
+        threads
+    }),
+    4.js压缩
+    const TerserWebpackPlugin = require("terser-webpack-plugin");
+    plugins: [
+        new TerserWebpackPlugin({
+            parallel: threads
+        })
+    ]
+```

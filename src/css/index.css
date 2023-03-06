@@ -5,6 +5,7 @@
     width: 30px;
     height: 30px;
     background: skyblue;
+    box-shadow: 2px 2px 4px goldenrod;
 }
 .wrap1 {
     background-image: url(../assets/img/29a1e4f5953a432789a1cdafab4bd852.png);
