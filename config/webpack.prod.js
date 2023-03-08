@@ -4,6 +4,7 @@ const htmlPlugin = require("html-webpack-plugin");
 const miniCssExtract = require("mini-css-extract-plugin");
 const cssMinimizer = require("css-minimizer-webpack-plugin");
 const TerserWebpackPlugin = require("terser-webpack-plugin");
+const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 
 const os = require("os");
 
@@ -88,6 +89,7 @@ module.exports = {
                                 options: {
                                     cacheDirectory: true,// 开启babel缓存
                                     cacheCompression: false, //关闭缓存文件压缩
+                                    plugins: ["@babel/plugin-transform-runtime"],//减少代码体积
                                 }
                             }
                         ]
@@ -117,8 +119,43 @@ module.exports = {
         // js压缩 默认webpack5自带-该其配置 此处需体现
         new TerserWebpackPlugin({
             parallel: threads
-        })
+        }),
+        //图片资源过多的时候开启图片压缩
+        new ImageMinimizerPlugin({
+            minimizer: {
+                implementation: ImageMinimizerPlugin.imageminMinify,
+                options: {
+                    // Lossless optimization with custom option
+                    // Feel free to experiment with options for better result for you
+                    plugins: [
+                        ["gifsicle", { interlaced: true }],
+                        ["jpegtran", { progressive: true }],
+                        ["optipng", { optimizationLevel: 5 }],
+                        [
+                            "svgo",
+                            {
+                                plugins: [
+                                    "preset-default",
+                                    "prefixIds",
+                                    {
+                                        name: "sortAttrs",
+                                        params: {
+                                            xmlnsOrder: "alphabetical"
+                                        }
+                                    }
+                                ],
+                            },
+                        ],
+                    ],
+                },
+            }
+        }),
     ],
+    // optimization: {
+    //     minimizer: [
+    //         //plugins中关于压缩的都可以放这里
+    //     ]
+    // },
     mode: "production",
     devtool: "source-map"
 }

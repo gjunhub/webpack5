@@ -222,3 +222,88 @@
         })
     ]
 ```
+# 减少babel编译的体积
+```
+    babel为编译的每个文件添加了辅助代码，使得代码体积变大
+    yarn add @babel/plugin-transfrom-runtime -D
+    改plugin禁用了babel自动对每个文件的runtime注入，而是引入，使得所有辅助代码在这里引用
+    {
+        test: /\.js$/,
+        loader: "babel-loader",
+        options: {
+            plugins: ["@babel/plugin-transform-runtime"],//减少代码体积
+        }
+    }
+```
+# 图片资源压缩
+```
+    yarn add image-minimizer-webpack-plugin imagemin -D 
+    // 无损压缩
+    yarn add imagemin-gifsicle imagemin-jpegtran imagemin-optipng imagemin-svgo -D
+    optimization中minimizer 添加 new ImageMinimizerPlugin
+    new ImageMinimizerPlugin({
+        minimizer: {
+            implementation: ImageMinimizerPlugin.imageminMinify,
+            options: {
+                // Lossless optimization with custom option
+                // Feel free to experiment with options for better result for you
+                plugins: [
+                    ["gifsicle", { interlaced: true }],
+                    ["jpegtran", { progressive: true }],
+                    ["optipng", { optimizationLevel: 5 }],
+                    [
+                        "svgo",
+                        {
+                            plugins: [
+                                "preset-default",
+                                "prefixIds",
+                                {
+                                    name: "sortAttrs",
+                                    params: {
+                                        xmlnsOrder: "alphabetical"
+                                    }
+                                }
+                            ],
+                        },
+                    ],
+                ],
+            },
+        }
+    }),
+```
+# codeSplit 适用于 多包项目/多页面引用相同文件
+```
+    // subProject 文件下 
+    1. main.js / index.js 中均引用 add 函数
+    2. webpack.config.js
+    {
+        entry: {
+            app: './index.js',
+            main: './main.js'
+        },
+        optimization: {
+            splitChunks: {
+                chunks: "all",//所有模块进行分割
+                minRemainingSize:  0,//类似minSize，最后确保提取的文件大小不能为0
+                minChunks: 1,//至少被引用的次数的文件
+                cacheGroups: {//哪些模块要打包到一个组
+                    defaultVendors: {
+                        test: /node_modules/,//模块位置
+                        priority: -10, //权重
+                        reuseExistingChunk: true, //若当前chunk包含已从主bundle中拆分出的模块，则它将被重用，而不是生成新的模块
+                    },
+                    default: {
+                        //其他没有写的配置会使用上面的默认值
+                        minSize: 0, //定义了文件体积大小，大于该值则会会被打包成单独文件
+                        minChunks: 2,
+                    }
+                }
+            }
+        },
+    }
+```
+# 多入口按需加载/动态加载
+```
+    1.index.js 利用import懒加载模块，使用该方法会将引用的模块单独打包
+    2.仅在触发需要执行的场景时才会http加载模块进来
+```
