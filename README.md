@@ -307,3 +307,23 @@
     1.index.js 利用import懒加载模块，使用该方法会将引用的模块单独打包
     2.仅在触发需要执行的场景时才会http加载模块进来
 ```
+# 按需加载的模块 自定义chunkName
+```
+    1.subPorject下index.js import 添加 webpackChunkName名称
+    2.webpack.config.js output添加 chunkFilename
+```
+# 统一管理 type：asset命名规则
+```
+    1.webpack.prod.js
+    output{
+        ...
+        //用来统一代替asset类型中generator.filename定义的模块名
+        assetModuleFilename: "static/media/[hash:10][ext][query]"
+    }
+    2.miniCssExtract
+    new miniCssExtract({
+        filename: "static/css/[name].css",
+        //外部引入的页面js中涵盖了css的话，需要以下处理
+        chunkFilename: "static/css/[name].chunk.css"
+    }),
+```

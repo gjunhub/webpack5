@@ -15,7 +15,9 @@ module.exports = {
     output: {
         //__dirname 当前文件的文件夹目录
         path: path.resolve(__dirname,"../dist"),//绝对路径
-        filename: "js/bundle.js",
+        filename: "js/[name].js",
+        //图片、字体等通过type：asset处理资源命名方式
+        assetModuleFilename: "static/media/[hash:10][ext][query]",
         //自动清空上一次打包内容，webpack5之前都运用 cleanWebpackPlugin去配置
         clean: true,
     },
@@ -64,9 +66,10 @@ module.exports = {
                                 maxSize: 10 * 1024
                             }
                         },
-                        generator: {
-                            filename: "static/image/[hash:10][ext][query]"
-                        }
+                        //利用 assetModuleFilename 处理了
+                        // generator: {
+                        //     filename: "static/image/[hash:10][ext][query]"
+                        // }
                     },
                     {
                         test: /\.js$/,
@@ -112,7 +115,9 @@ module.exports = {
         }),
         // 解决原style-loader 弱网下加载慢闪屏
         new miniCssExtract({
-            filename: "static/css/main.css"
+            filename: "static/css/[name].css",
+            //外部引入的页面js中涵盖了css的话，需要以下处理
+            chunkFilename: "static/css/[name].chunk.css"
         }),
         // 样式压缩
         new cssMinimizer(),
