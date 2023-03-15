@@ -5,6 +5,7 @@ const miniCssExtract = require("mini-css-extract-plugin");
 const cssMinimizer = require("css-minimizer-webpack-plugin");
 const TerserWebpackPlugin = require("terser-webpack-plugin");
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
+const PreloadWebpackPlugin = require("@vue/preload-webpack-plugin");
 
 const os = require("os");
 
@@ -155,6 +156,10 @@ module.exports = {
                 },
             }
         }),
+        new PreloadWebpackPlugin({
+            rel: "preload",//模式
+            as: "script"//优先级， style最高
+        })
     ],
     // optimization: {
     //     minimizer: [

@@ -327,3 +327,21 @@
         chunkFilename: "static/css/[name].chunk.css"
     }),
 ```
+# Preload/Prefetch加载资源
+```
+    相同点：
+        都会加载资源、不执行
+        都会缓存
+    区别：
+        Preload 加载优先级高
+        Preload 只加载当前页面需要使用的资源，Prefetch可以加载当前页面资源，也可以加载下一个页面需要使用的资源
+    总结：
+        当前页面优先级高的资源使用 Preload 加载
+        下一个页面需要使用资源用的 Prefetch 加载
+        兼容性很差，Preload略微好些
+    yarn add --save--dev @vue/preload-webpack-plugin
+    new PreloadWebpackPlugin({
+        rel: "preload",//模式
+        as: "script"//优先级， style最高
+    })
+```

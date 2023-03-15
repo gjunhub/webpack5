@@ -3,6 +3,7 @@ const eslintPlugin = require("eslint-webpack-plugin");
 const htmlPlugin = require("html-webpack-plugin");
 const miniCssExtract = require("mini-css-extract-plugin");
 const TerserWebpackPlugin = require("terser-webpack-plugin");
+const PreloadWebpackPlugin = require("@vue/preload-webpack-plugin");
 
 const os = require("os");
 
@@ -115,6 +116,10 @@ module.exports = {
         new miniCssExtract({
             filename: "static/css/main.css"
         }),
+        new PreloadWebpackPlugin({
+            rel: "prefetch",//模式
+            // as: "script"//优先级， style最高
+        })
     ],
     devServer: {
         host: "localhost",//启动服务器域名

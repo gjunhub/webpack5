@@ -28,6 +28,7 @@
   "version": "1.0.0",
   "main": "main.js",
   "dependencies": {
+    "@vue/preload-webpack-plugin": "^2.0.0",
     "acorn": "^8.8.2",
     "acorn-import-assertions": "^1.8.0",
     "ajv": "^6.12.6",
