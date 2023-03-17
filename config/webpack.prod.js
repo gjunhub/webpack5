@@ -6,6 +6,7 @@ const cssMinimizer = require("css-minimizer-webpack-plugin");
 const TerserWebpackPlugin = require("terser-webpack-plugin");
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 const PreloadWebpackPlugin = require("@vue/preload-webpack-plugin");
+const WorkboxPlugin = require("workbox-webpack-plugin");
 
 const os = require("os");
 
@@ -16,7 +17,7 @@ module.exports = {
     output: {
         //__dirname 当前文件的文件夹目录
         path: path.resolve(__dirname,"../dist"),//绝对路径
-        filename: "js/[name].js",
+        filename: "js/[name].[contenthash:8].js",
         //图片、字体等通过type：asset处理资源命名方式
         assetModuleFilename: "static/media/[hash:10][ext][query]",
         //自动清空上一次打包内容，webpack5之前都运用 cleanWebpackPlugin去配置
@@ -116,9 +117,9 @@ module.exports = {
         }),
         // 解决原style-loader 弱网下加载慢闪屏
         new miniCssExtract({
-            filename: "static/css/[name].css",
+            filename: "static/css/[name].[contenthash:8].css",
             //外部引入的页面js中涵盖了css的话，需要以下处理
-            chunkFilename: "static/css/[name].chunk.css"
+            chunkFilename: "static/css/[name].chunk.[contenthash:8].css"
         }),
         // 样式压缩
         new cssMinimizer(),
@@ -159,6 +160,13 @@ module.exports = {
         new PreloadWebpackPlugin({
             rel: "preload",//模式
             as: "script"//优先级， style最高
+        }),
+        //注册PWA
+        new WorkboxPlugin.GenerateSW({
+            // 这些选项帮助快速启用 ServiceWorkers
+            // 不允许遗留任何“旧的” ServiceWorkers
+            clientsClaim: true,
+            skipWaiting: true,
         })
     ],
     // optimization: {

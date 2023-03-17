@@ -40,6 +40,7 @@
     "clone-deep": "^4.0.1",
     "colorette": "^2.0.19",
     "commander": "^9.5.0",
+    "core-js": "^3.29.1",
     "cross-spawn": "^7.0.3",
     "css-minimizer-webpack-plugin": "^4.2.2",
     "electron-to-chromium": "^1.4.308",
@@ -96,6 +97,7 @@
     "safe-buffer": "^5.2.1",
     "schema-utils": "^3.1.1",
     "serialize-javascript": "^6.0.1",
+    "serve": "^14.2.0",
     "shallow-clone": "^3.0.1",
     "shebang-command": "^2.0.0",
     "shebang-regex": "^3.0.0",
@@ -112,7 +114,8 @@
     "webpack-merge": "^5.8.0",
     "webpack-sources": "^3.2.3",
     "which": "^2.0.2",
-    "wildcard": "^2.0.0"
+    "wildcard": "^2.0.0",
+    "workbox-webpack-plugin": "^6.5.4"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

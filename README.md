@@ -345,3 +345,33 @@
         as: "script"//优先级， style最高
     })
 ```
+# network cache
+```
+    1、cd subProject 修改calc.js
+    2. webpack.config.js 中 optimization 添加 runtimeChunk
+    被依赖的文件 发生修改时(同时结合contenthash)仅仅修改被依赖文件的hash，而不涉及引用文件的hash变动
+    优势：浏览器不需要重新获取资源（文件资源hash未变化）
+    runtimeChunk: {
+        name: entrypoint => `runtime~${entrypoint.name}.js`
+    }
+```
+# core-js
+```
+    ES标准有名的polyfill，帮助在浏览器不支持某API时，负责降级实现
+```
+# PWA 实现 浏览器离线访问
+```
+    yarn add workbox-webpack-plugin --save--dev
+    1.wbepack.dev.js/webpack.prod.js
+        const WorkboxPlugin = require("workbox-webpack-plugin");
+        //注册PWA
+        new WorkboxPlugin.GenerateSW({
+            // 这些选项帮助快速启用 ServiceWorkers
+            // 不允许遗留任何“旧的” ServiceWorkers
+            clientsClaim: true,
+            skipWaiting: true,
+        })
+    2.入口js页面 注册 Service Worker
+    作用：在offline的情况下，仍然能访问基础页面
+    劣势：兼容性较差
+```
