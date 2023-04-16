@@ -4,7 +4,7 @@
 ```
 # npx调用.bin中的环境变量
 ```
-    npx webpack ./src/... --mode=devalopment
+    npx webpack ./src/... --mode=development
 ```
 # 使用style-loader css-loader 编译css文件
 ```
@@ -374,4 +374,9 @@
     2.入口js页面 注册 Service Worker
     作用：在offline的情况下，仍然能访问基础页面
     劣势：兼容性较差
+```
+#关闭性能分析，提升打包速度
+```
+    webpack.config.js下
+    performance: false, // 关闭性能分析，提升打包速度
 ```
